@@ -1,53 +1,59 @@
-# Coming Soon — Dummy Site
+# Manish Bidari — Personal Website
 
-A static, no-build "coming soon" landing page (`index.html`), ready to deploy to Vercel.
+A single-page personal site — pure HTML/CSS/JS, no build step, no dependencies to install. Ready to deploy to Vercel as-is.
 
-## What's inside
-- `index.html` — the whole site (HTML, CSS, and a small JS handler, no dependencies)
-- `vercel.json` — clean URL settings for Vercel
-- No build step, no `package.json`, no framework — plain static hosting
+## Files in this project
 
-The email form is a dummy: it doesn't send anywhere yet. It just shows a "thanks" message in the browser. Swap the JS handler for a real request to Mailchimp, Resend, a Google Form, etc. when you're ready.
+```
+ai-portfolio/
+├── index.html      → the entire site (structure, styles, and scripts)
+├── vercel.json     → tells Vercel this is a static site with clean URLs
+├── .gitignore      → keeps local/Vercel junk out of git
+└── README.md       → this file
+```
 
-## Deploy to Vercel
+That's genuinely all you need — `index.html` is self-contained, and Vercel auto-detects plain HTML projects with zero configuration required.
+
+## 1. Preview locally
+
+Just double-click `index.html`, or drag it into a browser tab. No server needed.
+
+## 2. Deploy to Vercel
 
 ### Option A — Vercel CLI (fastest)
-1. Install the CLI if you don't have it:
-   ```bash
-   npm i -g vercel
-   ```
-2. From inside this folder, run:
-   ```bash
-   vercel
-   ```
-   Follow the prompts (log in / create account on first run, confirm project name, keep default settings — no build command needed).
-3. For a production URL:
-   ```bash
-   vercel --prod
-   ```
+```bash
+npm i -g vercel
+cd ai-portfolio
+vercel
+```
+Answer the prompts (set up a new project, accept the defaults — Vercel will detect "Other/Static"). When it finishes you'll get a live `https://your-project.vercel.app` URL.
 
-### Option B — GitHub + Vercel dashboard (no CLI)
-1. Push this folder to a new GitHub repo:
+To push future changes live:
+```bash
+vercel --prod
+```
+
+### Option B — GitHub + Vercel dashboard (recommended if you'll keep editing)
+1. Create a new GitHub repository and push this folder to it:
    ```bash
+   cd ai-portfolio
    git init
    git add .
-   git commit -m "Coming soon page"
+   git commit -m "Initial commit"
    git branch -M main
    git remote add origin https://github.com/<your-username>/<repo-name>.git
    git push -u origin main
    ```
-2. Go to [vercel.com](https://vercel.com) → **Add New… → Project**.
-3. Import the GitHub repo you just pushed.
-4. Framework preset: choose **Other** (or leave as detected — Vercel auto-detects a plain static site since there's no build config). Leave the build command and output directory blank.
-5. Click **Deploy**. Vercel gives you a live URL in under a minute (e.g. `your-project.vercel.app`).
+2. Go to [vercel.com](https://vercel.com) → **Add New... → Project** → import that repository.
+3. Framework Preset: **Other** (no build command, no output directory needed).
+4. Click **Deploy**.
 
-### Option C — Drag and drop (no git at all)
-1. Go to [vercel.com/new](https://vercel.com/new).
-2. Drag the `coming-soon-site` folder straight into the browser upload area.
-3. Deploy — Vercel serves `index.html` as-is.
+Every future `git push` to `main` will auto-redeploy the site.
 
-## Custom domain (optional)
-In the Vercel project → **Settings → Domains**, add your domain and follow the DNS instructions Vercel shows you (usually one CNAME or A record at your registrar).
+## 3. Custom domain (optional)
 
-## Editing later
-Everything lives in `index.html` — headline, copy, colors, and the form are all in that one file. Change the text, save, and redeploy (`vercel --prod`, or just push to `main` if you connected GitHub — Vercel redeploys automatically on every push).
+In the Vercel dashboard: **Project → Settings → Domains** → add your domain and follow the DNS instructions it gives you (usually a CNAME or A record at your registrar).
+
+## 4. Personalizing further
+
+All content lives directly in `index.html` — search for the section you want to change (`id="about"`, `id="skills"`, `id="experience"`, `id="projects"`, `id="education"`, `id="contact"`) and edit the text in place. Colors and fonts are defined once at the top of the `<style>` block under `:root` if you want to adjust the palette.
