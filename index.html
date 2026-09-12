@@ -10,18 +10,47 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #050B18;
-    --surface: #0A1428;
-    --surface-2: #0F1C36;
-    --line: #1D2E4E;
+    --bg: #0B1220;
+    --surface: #121C30;
+    --surface-2: #17233A;
+    --line: #283A57;
     --text: #EAF2FF;
-    --text-muted: #7C93B8;
+    --text-muted: #90A4C4;
     --cyan: #37D9E8;
     --blue: #4C7BF0;
     --violet: #8A78E8;
+    --cyan-rgb: 55,217,232;
+    --blue-rgb: 76,123,240;
+    --bg-rgb: 11,18,32;
+    --hero-glow: #17233F;
+    --shadow-1: 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-2: 0 8px 20px -8px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.35);
+    --shadow-3: 0 24px 48px -16px rgba(0,0,0,0.6), 0 8px 20px -8px rgba(0,0,0,0.4);
+    --highlight: rgba(255,255,255,0.06);
+    --btn-text: #04101F;
     --max-w: 1100px;
     --gutter: 6vw;
     --nav-h: 64px;
+  }
+  html[data-theme="light"]{
+    --bg: #F3F6FC;
+    --surface: #FFFFFF;
+    --surface-2: #ECF1FA;
+    --line: #DAE2F0;
+    --text: #101828;
+    --text-muted: #5B6B85;
+    --cyan: #0E92A3;
+    --blue: #2E5FD9;
+    --violet: #6C4FCB;
+    --cyan-rgb: 14,146,163;
+    --blue-rgb: 46,95,217;
+    --bg-rgb: 243,246,252;
+    --hero-glow: #E3EBFA;
+    --shadow-1: 0 1px 2px rgba(16,24,40,0.06);
+    --shadow-2: 0 10px 24px -10px rgba(16,24,40,0.16), 0 2px 6px rgba(16,24,40,0.08);
+    --shadow-3: 0 28px 56px -20px rgba(16,24,40,0.22), 0 8px 20px -8px rgba(16,24,40,0.12);
+    --highlight: rgba(255,255,255,0.7);
+    --btn-text: #FFFFFF;
   }
 
   *{ box-sizing: border-box; }
@@ -30,23 +59,31 @@
     margin:0; background: var(--bg); color: var(--text);
     font-family: 'IBM Plex Sans', -apple-system, sans-serif;
     line-height: 1.6; -webkit-font-smoothing: antialiased;
+    transition: background .3s ease, color .3s ease;
   }
   h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
   a{ color: inherit; }
-  ::selection{ background: var(--cyan); color: #04101F; }
+  ::selection{ background: var(--cyan); color: var(--btn-text); }
   @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition-duration: 0.001ms !important; } }
   section[id]{ scroll-margin-top: var(--nav-h); }
 
   .wrap{ max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); position: relative; z-index: 2; }
 
   /* NAV */
-  nav{ position: sticky; top:0; z-index: 100; height: var(--nav-h); backdrop-filter: blur(10px); background: rgba(5,11,24,0.75); border-bottom: 1px solid var(--line); }
+  nav{ position: sticky; top:0; z-index: 100; height: var(--nav-h); backdrop-filter: blur(10px); background: rgba(var(--bg-rgb),0.75); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-1); transition: background .3s ease, border-color .3s ease; }
   nav .wrap{ display:flex; align-items:center; justify-content:space-between; height: 100%; }
   .logo{ display:flex; align-items:center; gap: 0.55rem; font-family:'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.98rem; text-decoration:none; letter-spacing: 0.01em; }
   .logo svg{ display:block; }
   .navlinks{ display:flex; gap: 1.8rem; list-style:none; margin:0; padding:0; }
   .navlinks a{ text-decoration:none; color: var(--text-muted); font-size: 0.92rem; transition: color .15s ease; cursor: pointer; }
   .navlinks a:hover, .navlinks a:focus-visible{ color: var(--text); }
+  .nav-right{ display:flex; align-items:center; gap: 0.7rem; }
+  .theme-toggle{ width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:pointer; color: var(--text-muted); box-shadow: var(--shadow-1); transition: border-color .15s ease, color .15s ease, transform .15s ease; flex-shrink:0; }
+  .theme-toggle:hover{ border-color: var(--cyan); color: var(--text); transform: translateY(-1px); }
+  .theme-toggle svg{ display:block; }
+  .theme-toggle .sun{ display:none; }
+  html[data-theme="light"] .theme-toggle .moon{ display:none; }
+  html[data-theme="light"] .theme-toggle .sun{ display:block; }
   .navtoggle{ display:none; width: 46px; height: 46px; border-radius: 50%; align-items:center; justify-content:center; background: var(--surface); border: 1px solid var(--line); cursor: pointer; }
   .navtoggle span, .navtoggle::before, .navtoggle::after{ content:''; display:block; width: 18px; height: 2px; background: var(--text); position: relative; transition: transform .2s ease, opacity .2s ease; }
   .navtoggle::before{ position:absolute; transform: translateY(-6px); }
@@ -62,11 +99,24 @@
 
   /* HERO */
   .hero{ position: relative; padding: 5rem 0 3.5rem; text-align:center; overflow: hidden; isolation: isolate; }
-  .hero-bg{ position:absolute; inset:0; z-index:-1; background: radial-gradient(ellipse at 50% 20%, #0B2040 0%, var(--bg) 65%); }
-  .hero-bg svg{ width:100%; height:100%; display:block; }
+  .hero-bg{ position:absolute; inset:0; z-index:-1; background: radial-gradient(ellipse at 50% 20%, var(--hero-glow) 0%, var(--bg) 65%); transition: background .3s ease; }
+  .hexline{ stroke: var(--line); transition: stroke .3s ease; }
+  .circuit-path{ stroke: var(--line); transition: stroke .3s ease; }
+  .circuit-dot{ fill: var(--line); transition: fill .3s ease; }
+  .pulse-dot{ fill: var(--cyan); }
+  .brain-node{ fill: var(--cyan); }
+  .stop-a{ stop-color: var(--cyan); }
+  .stop-b{ stop-color: var(--violet); }
+  .hero-bg svg{ width:100%; height:100%; display:block; transition: transform .2s ease-out; }
+  #brainIcon{ transition: transform .2s ease-out; filter: drop-shadow(0 6px 14px rgba(var(--cyan-rgb),0.25)); }
+
+  /* Elevation + tilt utilities for a more physical, 3D feel */
+  [data-tilt]{ transform-style: preserve-3d; will-change: transform; transition: transform .15s ease-out, box-shadow .25s ease; }
+  .tilt-shine{ position:absolute; inset:0; border-radius:inherit; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), var(--highlight), transparent 60%); opacity:0; transition: opacity .25s ease; pointer-events:none; }
+  [data-tilt]:hover .tilt-shine{ opacity:1; }
   .hero-copy{ position:relative; z-index:2; padding-top: 1.2rem; }
   .brain-wrap{ position:relative; display:flex; justify-content:center; margin-bottom: 0.4rem; }
-  .brain-glow{ position:absolute; width: 220px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(55,217,232,0.22), transparent 70%); filter: blur(6px); animation: glow 4s ease-in-out infinite; top: -30px; }
+  .brain-glow{ position:absolute; width: 220px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--cyan-rgb),0.22), transparent 70%); filter: blur(6px); animation: glow 4s ease-in-out infinite; top: -30px; }
   @keyframes glow{ 0%,100%{ opacity: .6; transform: scale(1);} 50%{ opacity: 1; transform: scale(1.08);} }
   .hero-copy .name{ font-size: clamp(1.9rem, 6vw, 3.1rem); letter-spacing: 0.04em; text-transform: uppercase; }
   .hero-copy .tagline{ font-family:'IBM Plex Mono', monospace; color: var(--cyan); font-size: 0.9rem; letter-spacing: 0.08em; margin-top: 0.7rem; height: 1.4em; }
@@ -74,11 +124,13 @@
   @keyframes blink{ 50%{ opacity:0; } }
   .hero-copy p.desc{ color: var(--text-muted); max-width: 54ch; margin: 1.3rem auto 0; font-size: 1.02rem; }
   .hero-cta{ display:flex; gap: 1rem; justify-content:center; margin-top: 2.1rem; flex-wrap: wrap; }
-  .btn{ display:inline-flex; align-items:center; gap: 0.5rem; padding: 0.75rem 1.4rem; border-radius: 999px; text-decoration:none; font-size: 0.95rem; font-weight: 500; transition: transform .15s ease, background .15s ease, border-color .15s ease; cursor: pointer; }
-  .btn-primary{ background: linear-gradient(135deg, var(--cyan), var(--blue)); color: #04101F; }
-  .btn-primary:hover{ transform: translateY(-1px); filter: brightness(1.08); }
-  .btn-ghost{ border: 1px solid var(--line); color: var(--text); }
-  .btn-ghost:hover{ border-color: var(--cyan); }
+  .btn{ display:inline-flex; align-items:center; gap: 0.5rem; padding: 0.75rem 1.4rem; border-radius: 999px; text-decoration:none; font-size: 0.95rem; font-weight: 500; transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease; cursor: pointer; }
+  .btn-primary{ background: linear-gradient(135deg, var(--cyan), var(--blue)); color: var(--btn-text); box-shadow: 0 6px 16px -6px rgba(var(--cyan-rgb),0.5), 0 2px 4px rgba(0,0,0,0.2); }
+  .btn-primary:hover{ transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 10px 22px -8px rgba(var(--cyan-rgb),0.6), 0 4px 8px rgba(0,0,0,0.25); }
+  .btn-primary:active{ transform: translateY(0); box-shadow: 0 3px 8px -4px rgba(var(--cyan-rgb),0.5); }
+  .btn-ghost{ border: 1px solid var(--line); color: var(--text); background: var(--surface); box-shadow: var(--shadow-1); }
+  .btn-ghost:hover{ border-color: var(--cyan); transform: translateY(-2px); box-shadow: var(--shadow-2); }
+  .btn-ghost:active{ transform: translateY(0); }
   .btn:focus-visible{ outline: 2px solid var(--cyan); outline-offset: 2px; }
 
   .scroll-hint{ margin-top: 2.6rem; display:flex; justify-content:center; }
@@ -103,7 +155,8 @@
   .about-grid p{ color: var(--text-muted); font-size: 1.02rem; }
   .about-grid p + p{ margin-top: 1rem; }
   .stat-list{ list-style:none; margin:0; padding:0; display:grid; gap: 1.3rem; }
-  .stat-list li{ display:flex; align-items:baseline; gap: 0.9rem; border-bottom: 1px solid var(--line); padding-bottom: 1.1rem; }
+  .stat-list li{ display:flex; align-items:baseline; gap: 0.9rem; border-bottom: 1px solid var(--line); padding: 0.9rem 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow-1); transition: transform .2s ease, box-shadow .2s ease; }
+  .stat-list li:hover{ transform: translateY(-2px); box-shadow: var(--shadow-2); }
   .stat-num{ font-family:'Space Grotesk', sans-serif; font-size: 2rem; color: var(--cyan); min-width: 3.4ch; }
   .stat-label{ color: var(--text-muted); font-size: 0.95rem; }
 
@@ -113,34 +166,36 @@
   .marquee-track{ display:flex; gap: 3rem; width: max-content; animation: scroll 24s linear infinite; }
   .marquee:hover .marquee-track{ animation-play-state: paused; }
   @keyframes scroll{ from{ transform: translateX(0);} to{ transform: translateX(-50%);} }
-  .marquee-item{ display:flex; align-items:center; gap: 0.5rem; font-family:'IBM Plex Mono', monospace; font-size: 0.92rem; color: var(--text-muted); white-space: nowrap; padding: 0.6rem 1.2rem; border: 1px solid var(--line); border-radius: 999px; }
+  .marquee-item{ display:flex; align-items:center; gap: 0.5rem; font-family:'IBM Plex Mono', monospace; font-size: 0.92rem; color: var(--text-muted); white-space: nowrap; padding: 0.6rem 1.2rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-1); }
   .marquee-item strong{ color: var(--cyan); font-weight: 500; }
   .marquee-item .dot{ width:6px; height:6px; border-radius:50%; background: var(--violet); flex-shrink:0; }
 
   /* SKILLS */
   .skill-groups{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem 2rem; }
-  .skill-group h3{ display:flex; align-items:center; gap: 0.55rem; font-size: 1.0rem; margin-bottom: 0.85rem; }
+  .skill-group{ position:relative; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem 1.2rem; box-shadow: var(--shadow-1); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; overflow:hidden; }
+  .skill-group:hover{ transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--cyan); }
+  .skill-group h3{ display:flex; align-items:center; gap: 0.55rem; font-size: 1.0rem; margin-bottom: 0.85rem; position:relative; }
   .skill-group h3 svg{ color: var(--cyan); flex-shrink:0; }
-  .skill-group ul{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap: 0.5rem; }
-  .skill-group li{ font-family:'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--text-muted); border: 1px solid var(--line); padding: 0.35rem 0.6rem; border-radius: 5px; transition: border-color .15s ease, color .15s ease; }
-  .skill-group li:hover{ border-color: var(--cyan); color: var(--text); }
+  .skill-group ul{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap: 0.5rem; position:relative; }
+  .skill-group li{ font-family:'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--text-muted); border: 1px solid var(--line); padding: 0.35rem 0.6rem; border-radius: 5px; background: var(--surface-2); box-shadow: var(--shadow-1); transition: border-color .15s ease, color .15s ease, transform .15s ease; }
+  .skill-group li:hover{ border-color: var(--cyan); color: var(--text); transform: translateY(-1px); }
 
   /* EXPERIENCE */
   .timeline{ position:relative; padding-left: 2.2rem; }
   .timeline::before{ content:''; position:absolute; left: 5px; top: 6px; bottom: 6px; width:1px; background: var(--line); }
   .tl-item{ position:relative; padding-bottom: 2.3rem; }
   .tl-item:last-child{ padding-bottom:0; }
-  .tl-item::before{ content:''; position:absolute; left: -2.2rem; top: 5px; width:11px; height:11px; border-radius:50%; background: var(--bg); border: 2px solid var(--cyan); box-shadow: 0 0 0 4px rgba(55,217,232,0.12); }
+  .tl-item::before{ content:''; position:absolute; left: -2.2rem; top: 5px; width:11px; height:11px; border-radius:50%; background: var(--bg); border: 2px solid var(--cyan); box-shadow: 0 0 0 4px rgba(var(--cyan-rgb),0.12), 0 2px 4px rgba(0,0,0,0.3); }
   .tl-role{ font-size: 1.08rem; margin-bottom: 0.15rem; }
   .tl-meta{ font-family:'IBM Plex Mono', monospace; font-size: 0.76rem; color: var(--cyan); margin-bottom: 0.7rem; }
   .tl-item ul{ margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--text-muted); }
   .tl-item ul li{ margin-bottom: 0.35rem; font-size: 0.95rem; }
 
   /* PROJECTS */
-  .projects{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem; }
-  .project-card{ position:relative; border: 1px solid var(--line); border-radius: 10px; padding: 1.4rem; background: var(--surface); transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; overflow:hidden; }
-  .project-card::before{ content:''; position:absolute; inset:0; background: linear-gradient(135deg, rgba(55,217,232,0.08), transparent 60%); opacity:0; transition: opacity .2s ease; }
-  .project-card:hover{ border-color: var(--cyan); transform: translateY(-3px); box-shadow: 0 12px 28px -14px rgba(55,217,232,0.25); }
+  .projects{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem; perspective: 1200px; }
+  .project-card{ position:relative; border: 1px solid var(--line); border-radius: 10px; padding: 1.4rem; background: var(--surface); box-shadow: var(--shadow-2); transition: border-color .2s ease, box-shadow .2s ease; overflow:hidden; }
+  .project-card::before{ content:''; position:absolute; inset:0; background: linear-gradient(135deg, rgba(var(--cyan-rgb),0.08), transparent 60%); opacity:0; transition: opacity .2s ease; }
+  .project-card:hover{ border-color: var(--cyan); box-shadow: var(--shadow-3); }
   .project-card:hover::before{ opacity:1; }
   .project-card .tag{ font-family:'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--violet); position:relative; }
   .project-card h3{ font-size: 1.05rem; margin: 0.5rem 0 0.5rem; position:relative; }
@@ -161,8 +216,8 @@
   .contact h2{ font-size: clamp(1.7rem, 4vw, 2.4rem); max-width: 15ch; }
   .contact p{ color: var(--text-muted); margin-top: 1rem; max-width: 42ch; }
   .contact-links{ display:grid; gap: 0.9rem; }
-  .contact-links a{ display:flex; justify-content:space-between; align-items:center; text-decoration:none; padding: 0.9rem 1.1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.93rem; transition: border-color .15s ease, background .15s ease; }
-  .contact-links a:hover{ border-color: var(--cyan); background: var(--surface); }
+  .contact-links a{ display:flex; justify-content:space-between; align-items:center; text-decoration:none; padding: 0.9rem 1.1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.93rem; background: var(--surface); box-shadow: var(--shadow-1); transition: border-color .15s ease, box-shadow .2s ease, transform .2s ease; }
+  .contact-links a:hover{ border-color: var(--cyan); box-shadow: var(--shadow-2); transform: translateY(-2px); }
   .contact-links .sub{ color: var(--text-muted); font-size: 0.78rem; font-family:'IBM Plex Mono', monospace; }
 
   footer{ border-top: 1px solid var(--line); padding: 2rem 0; color: var(--text-muted); font-size: 0.85rem; display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 0.6rem; }
@@ -190,7 +245,7 @@
   <div class="wrap">
     <a class="logo" href="#top" data-scroll>
       <svg width="22" height="19" viewBox="0 0 140 120" aria-hidden="true">
-        <defs><linearGradient id="navBrain" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#37D9E8"/><stop offset="100%" stop-color="#8A78E8"/></linearGradient></defs>
+        <defs><linearGradient id="navBrain" x1="0" y1="0" x2="1" y2="1"><stop class="stop-a" offset="0%"/><stop class="stop-b" offset="100%"/></linearGradient></defs>
         <g stroke="url(#navBrain)" stroke-width="3.5" fill="none" opacity="0.95">
           <path d="M40,30 C25,30 20,50 30,60 C20,68 25,88 42,88 C45,100 65,100 68,88"/>
           <path d="M68,88 C90,100 108,80 98,65 C112,55 105,32 88,30 C85,18 55,18 50,30"/>
@@ -206,7 +261,13 @@
       <li><a data-scroll href="#education">Education</a></li>
       <li><a data-scroll href="#contact">Contact</a></li>
     </ul>
-    <button class="navtoggle" id="navtoggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme">
+        <svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="navtoggle" id="navtoggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    </div>
   </div>
 </nav>
 
@@ -223,15 +284,15 @@
 
   <section class="hero" style="border-top:none;">
     <div class="hero-bg" aria-hidden="true">
-      <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <svg id="heroSvg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="hex" width="56" height="97" patternUnits="userSpaceOnUse">
-            <path d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z" fill="none" stroke="#1D2E4E" stroke-width="1"/>
-            <path d="M28 64 L56 80 L56 97 L28 97 L0 97 L0 80 Z" fill="none" stroke="#1D2E4E" stroke-width="1"/>
+            <path class="hexline" d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z" fill="none" stroke-width="1"/>
+            <path class="hexline" d="M28 64 L56 80 L56 97 L28 97 L0 97 L0 80 Z" fill="none" stroke-width="1"/>
           </pattern>
         </defs>
         <rect x="0" y="0" width="1200" height="700" fill="url(#hex)" opacity="0.5"/>
-        <g stroke="#233657" stroke-width="1.5" fill="none">
+        <g class="circuit-path" stroke-width="1.5" fill="none">
           <path id="p1" d="M600,180 L820,180 L900,120"/>
           <path id="p2" d="M600,230 L950,230"/>
           <path id="p3" d="M600,280 L780,280 L860,340"/>
@@ -241,12 +302,12 @@
           <path id="p7" d="M600,420 L900,420"/>
           <path id="p8" d="M600,470 L300,470"/>
         </g>
-        <g fill="#233657">
+        <g class="circuit-dot">
           <circle cx="820" cy="180" r="4"/><circle cx="950" cy="230" r="4"/><circle cx="780" cy="280" r="4"/>
           <circle cx="380" cy="180" r="4"/><circle cx="250" cy="230" r="4"/><circle cx="420" cy="280" r="4"/>
           <circle cx="900" cy="420" r="4"/><circle cx="300" cy="470" r="4"/>
         </g>
-        <g fill="#37D9E8">
+        <g class="pulse-dot">
           <circle r="3.2"><animateMotion dur="4s" repeatCount="indefinite" begin="0s"><mpath href="#p1"/></animateMotion></circle>
           <circle r="3.2"><animateMotion dur="5s" repeatCount="indefinite" begin="0.6s"><mpath href="#p2"/></animateMotion></circle>
           <circle r="3.2"><animateMotion dur="4.5s" repeatCount="indefinite" begin="1.2s"><mpath href="#p3"/></animateMotion></circle>
@@ -262,10 +323,10 @@
     <div class="wrap hero-copy">
       <div class="brain-wrap">
         <div class="brain-glow" aria-hidden="true"></div>
-        <svg width="130" height="112" viewBox="0 0 140 120" aria-hidden="true">
+        <svg id="brainIcon" width="130" height="112" viewBox="0 0 140 120" aria-hidden="true">
           <defs>
             <linearGradient id="brainStroke" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#37D9E8"/><stop offset="100%" stop-color="#8A78E8"/>
+              <stop class="stop-a" offset="0%"/><stop class="stop-b" offset="100%"/>
             </linearGradient>
           </defs>
           <g stroke="url(#brainStroke)" stroke-width="1.3" fill="none" opacity="0.9">
@@ -273,7 +334,7 @@
             <path d="M68,88 C90,100 108,80 98,65 C112,55 105,32 88,30 C85,18 55,18 50,30"/>
             <path d="M40,30 L60,45 M60,45 L88,30 M60,45 L60,70 M30,60 L60,70 M60,70 L68,88 M60,70 L98,65 M42,88 L60,70"/>
           </g>
-          <g fill="#37D9E8">
+          <g class="brain-node">
             <circle class="node d1" cx="40" cy="30" r="3.5"/><circle class="node d2" cx="60" cy="45" r="3.5"/>
             <circle class="node d3" cx="88" cy="30" r="3.5"/><circle class="node d4" cx="30" cy="60" r="3.5"/>
             <circle class="node d5" cx="98" cy="65" r="3.5"/><circle class="node d6" cx="60" cy="70" r="3.5"/>
@@ -427,22 +488,22 @@
       <p>Outside of client work — coursework, hackathons, and self-directed builds.</p>
     </div>
     <div class="projects">
-      <div class="project-card">
+      <div class="project-card" data-tilt><div class="tilt-shine"></div>
         <div class="tag">Python</div>
         <h3>Bus Reservation System</h3>
         <p>A console-based reservation system covering seat booking, cancellation, and route management.</p>
       </div>
-      <div class="project-card">
+      <div class="project-card" data-tilt><div class="tilt-shine"></div>
         <div class="tag">ReactJS</div>
         <h3>E-commerce System</h3>
         <p>A front-end e-commerce build covering product listings, cart flow, and checkout UI.</p>
       </div>
-      <div class="project-card">
+      <div class="project-card" data-tilt><div class="tilt-shine"></div>
         <div class="tag">Summer Project</div>
         <h3>Online Diagnostic Lab Reporting System</h3>
         <p>A system for managing and delivering diagnostic lab reports online.</p>
       </div>
-      <div class="project-card">
+      <div class="project-card" data-tilt><div class="tilt-shine"></div>
         <div class="tag">Hackathon — NCCS 2021</div>
         <h3>Attendance-Based Face Recognition System</h3>
         <p>Built during the NCCS Hackathon (Dec 10–12, 2021) to automate attendance via facial recognition.</p>
@@ -518,6 +579,20 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Theme toggle — persists across visits
+  const htmlEl = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme');
+  if(savedTheme){ htmlEl.setAttribute('data-theme', savedTheme); }
+  else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){
+    htmlEl.setAttribute('data-theme', 'light');
+  }
+  themeToggle.addEventListener('click', () => {
+    const next = htmlEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
 
   const toggle = document.getElementById('navtoggle');
   const menu = document.getElementById('mobilemenu');
@@ -595,6 +670,43 @@
     });
   }, { threshold: 0.4 });
   stats.forEach(el => io.observe(el));
+
+  // 3D tilt-on-hover for project cards — real perspective rotation, not a fake shadow trick
+  document.querySelectorAll('[data-tilt]').forEach(card => {
+    const maxTilt = 8;
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const rotY = (px - 0.5) * maxTilt * 2;
+      const rotX = (0.5 - py) * maxTilt * 2;
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+      card.style.setProperty('--mx', (px * 100) + '%');
+      card.style.setProperty('--my', (py * 100) + '%');
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+
+  // Subtle hero parallax — background circuitry and the brain mark drift
+  // opposite each other as the pointer moves, for a sense of depth.
+  const heroSection = document.querySelector('.hero');
+  const heroSvg = document.getElementById('heroSvg');
+  const brainIcon = document.getElementById('brainIcon');
+  if(heroSection && window.matchMedia('(pointer:fine)').matches){
+    heroSection.addEventListener('pointermove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      if(heroSvg) heroSvg.style.transform = `translate(${px * -14}px, ${py * -10}px) scale(1.03)`;
+      if(brainIcon) brainIcon.style.transform = `translate(${px * 10}px, ${py * 8}px)`;
+    });
+    heroSection.addEventListener('pointerleave', () => {
+      if(heroSvg) heroSvg.style.transform = '';
+      if(brainIcon) brainIcon.style.transform = '';
+    });
+  }
 </script>
 
 </body>
